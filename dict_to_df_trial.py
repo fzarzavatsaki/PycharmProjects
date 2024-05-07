@@ -5,10 +5,6 @@ from preprocessing import preprocessing
 
 import csv
 
-
-#features_steps = create_feature_triplets(features)
-#print(isinstance(features_steps, list))
-
 # ___________________________ #
 # Code to flatten a dictionary of dictionaries
 def flat_dict(d):
@@ -23,7 +19,7 @@ def flat_dict(d):
         elif key == 'scenario':
             dict_list = val
             #print('dict_list', dict_list)
-            #print("shit", out)
+            #print('out', out)
             for dict in dict_list:
                 # print('dict', dict)
                 # print(dict.keys())
@@ -31,7 +27,7 @@ def flat_dict(d):
                 scen_flattend_dict = {}
                 for key, val in dict.items():
                     scen_flattend_dict.update({"background_triplets":bval})
-                    #print("double_sh",out)
+                    #print("out",out)
                     #print("scen_flattend_dict", scen_flattend_dict)
                     #print(key,val)
                     new_key = 'scenario' + '_' + key
