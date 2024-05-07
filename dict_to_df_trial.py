@@ -1,8 +1,6 @@
 
 import pandas as pd
-import find_triplets_final
 from find_triplets_final import create_feature_triplets
-#from pre_conditions_running_final import features
 from preprocessing import preprocessing
 
 import csv
@@ -11,8 +9,9 @@ import csv
 #features_steps = create_feature_triplets(features)
 #print(isinstance(features_steps, list))
 
-
-def flatdict(d):
+# ___________________________ #
+# Code to flatten a dictionary of dictionaries
+def flat_dict(d):
     out = []
     # for key in d:
     # print(key, d[key])
@@ -32,7 +31,7 @@ def flatdict(d):
                 scen_flattend_dict = {}
                 for key, val in dict.items():
                     scen_flattend_dict.update({"background_triplets":bval})
-                    #print("double_shit",out)
+                    #print("double_sh",out)
                     #print("scen_flattend_dict", scen_flattend_dict)
                     #print(key,val)
                     new_key = 'scenario' + '_' + key
@@ -45,20 +44,26 @@ def flatdict(d):
 
     return out
 
-numberoffiles = 79
-for i in range(1, numberoffiles-1):
-    with open(f"/Users/home/Desktop/UseReqInitial/{i}.txt") as f:
+# _____________________________________________________________ #
+# Run the code to create the SVO triplets of the Gherkin features
+# for all the projects in UseReqInitial directory (79 files)
+# If I run this for UseReqInitial2 I have to amend number_of_files to 76
+
+number_of_files = 76
+for i in range(1, number_of_files+1):
+    with open(f"/Users/home/Desktop/UseReqInitial2/{i}.txt") as f:
         text = f.read()
     # print(text)
     print(f"Project{i}")
-    list_of_features, features = preprocessing(text)
-    features_steps = create_feature_triplets(features)
+    list_of_features, features_steps = preprocessing(text)
+    features_steps = create_feature_triplets(features_steps)
     #print('features_steps', features_steps)
 
-    # creating dataframe
+    # _________________________________ #
+    # Create dataframe
     frames = []
     for feature in features_steps:
-        flat_feature = flatdict(feature)
+        flat_feature = flat_dict(feature)
         #print("flat_feature", flat_feature)
         df = pd.DataFrame(flat_feature)
         frames.append(df)
@@ -69,8 +74,6 @@ for i in range(1, numberoffiles-1):
     else:
         print(f"Project{i} is empty")
         final_df = pd.DataFrame()
-    print("final_df",final_df)
-
 
     # dataframe to csv
     header = ["background_triplets","scenario_nr", "scenario_given_triplets", "scenario_when_triplets","scenario_then_triplets"]
